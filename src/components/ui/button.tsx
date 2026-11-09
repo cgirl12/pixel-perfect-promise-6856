@@ -16,12 +16,20 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        bloom:
+          "rounded-full bg-ink text-primary-foreground shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-rose-ink hover:shadow-lift",
+        petal:
+          "rounded-full border border-petal/60 bg-background text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-rose hover:bg-blush",
+        float:
+          "rounded-full border border-border bg-background/90 text-foreground shadow-soft backdrop-blur transition-all duration-300 hover:border-petal hover:text-rose-ink",
       },
       size: {
         default: "h-9 px-4 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",
+        pill: "h-12 px-7 text-sm tracking-wide",
+        "icon-lg": "h-11 w-11",
       },
     },
     defaultVariants: {

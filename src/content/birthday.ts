@@ -1,0 +1,173 @@
+/**
+ * ─────────────────────────────────────────────────────────────
+ *  BIRTHDAY CONTENT — edit everything personal in this one file.
+ * ─────────────────────────────────────────────────────────────
+ *
+ *  Anything wrapped in [SQUARE BRACKETS] is a placeholder to replace.
+ *
+ *  PHOTOS
+ *   • Put image files in /public/photos/ (e.g. /public/photos/01.jpg)
+ *     and set `src: "/photos/01.jpg"`, or paste any full image URL.
+ *   • While `src` is empty, an elegant placeholder is shown instead.
+ *
+ *  VIDEO
+ *   • A local file: put it in /public/video/ and set `src: "/video/memory.mp4"`.
+ *   • A link: any direct .mp4/.webm URL, or a YouTube / Vimeo link.
+ *   • `poster` is the thumbnail shown before playing (optional).
+ *
+ *  MUSIC
+ *   • The default track is an original, royalty-free music-box tune made for
+ *     this site. To use your own, put an .mp3 in /public/audio/ and set
+ *     `music.src: "/audio/your-song.mp3"`. Only use music you have rights to.
+ */
+import defaultMusic from "@/assets/birthday-music.mp3.asset.json";
+
+export type Photo = {
+  /** Image path or URL. Leave "" to show a placeholder. */
+  src: string;
+  alt: string;
+  caption: string;
+};
+
+export type Memory = {
+  title: string;
+  /** Optional — leave "" to hide. */
+  date: string;
+  /** Short line shown on the card. */
+  summary: string;
+  /** Full story shown when the card is opened. */
+  description: string;
+};
+
+export const birthday = {
+  recipient: {
+    fullName: "[FULL NAME]",
+    nickname: "[NICKNAME]",
+    /** Main portrait for the "About you" section. Leave "" for a placeholder. */
+    profilePhoto: "",
+    profilePhotoAlt: "Portrait of [NICKNAME]",
+  },
+
+  /** Name of the person giving this gift — used to sign the letter. */
+  from: "[YOUR NAME]",
+
+  musicModal: {
+    eyebrow: "A little something for you",
+    heading: "Would you like some music?",
+    description: "Let's make this little celebration a bit more special.",
+    yes: "Ya, putar musik",
+    no: "Tidak, tanpa musik",
+  },
+
+  hero: {
+    eyebrow: "A special day • Made just for you",
+    greeting: "Happy Birthday,",
+    supporting: "Today is all about celebrating you and the beautiful memories you've created.",
+    cta: "Explore Your Special Day",
+  },
+
+  about: {
+    eyebrow: "A little introduction",
+    heading: "A little appreciation for you.",
+    paragraphs: [
+      "[ABOUT PARAGRAPH 1 — describe who they are: their character, what makes them, them.]",
+      "[ABOUT PARAGRAPH 2 — their little habits, the things they love, the way they make people feel.]",
+    ],
+    /** Three short words or phrases shown as highlights. */
+    qualities: ["[QUALITY 1]", "[QUALITY 2]", "[QUALITY 3]"],
+  },
+
+  gallery: {
+    eyebrow: "Captured moments",
+    heading: "A few frames of you.",
+    photos: [
+      { src: "", alt: "[Describe photo 1]", caption: "[PHOTO 1 CAPTION]" },
+      { src: "", alt: "[Describe photo 2]", caption: "[PHOTO 2 CAPTION]" },
+      { src: "", alt: "[Describe photo 3]", caption: "[PHOTO 3 CAPTION]" },
+      { src: "", alt: "[Describe photo 4]", caption: "[PHOTO 4 CAPTION]" },
+      { src: "", alt: "[Describe photo 5]", caption: "[PHOTO 5 CAPTION]" },
+      { src: "", alt: "[Describe photo 6]", caption: "[PHOTO 6 CAPTION]" },
+      { src: "", alt: "[Describe photo 7]", caption: "[PHOTO 7 CAPTION]" },
+      { src: "", alt: "[Describe photo 8]", caption: "[PHOTO 8 CAPTION]" },
+    ] satisfies Photo[],
+  },
+
+  video: {
+    eyebrow: "Moments in motion",
+    heading: "Some memories are even more beautiful when they move.",
+    /** Local file (/video/memory.mp4), direct video URL, or YouTube/Vimeo link. "" = placeholder. */
+    src: "",
+    /** Thumbnail image shown before the video plays (optional). */
+    poster: "",
+    caption: "[VIDEO CAPTION — optional, e.g. where or when it was filmed]",
+  },
+
+  memories: {
+    eyebrow: "Little stories",
+    heading: "Memories worth keeping.",
+    items: [
+      {
+        title: "[MEMORY 1 TITLE]",
+        date: "[DATE — optional]",
+        summary: "[One-line teaser for memory 1]",
+        description: "[MEMORY 1 STORY — write the full memory here.]",
+      },
+      {
+        title: "[MEMORY 2 TITLE]",
+        date: "[DATE — optional]",
+        summary: "[One-line teaser for memory 2]",
+        description: "[MEMORY 2 STORY — write the full memory here.]",
+      },
+      {
+        title: "[MEMORY 3 TITLE]",
+        date: "[DATE — optional]",
+        summary: "[One-line teaser for memory 3]",
+        description: "[MEMORY 3 STORY — write the full memory here.]",
+      },
+      {
+        title: "[MEMORY 4 TITLE]",
+        date: "[DATE — optional]",
+        summary: "[One-line teaser for memory 4]",
+        description: "[MEMORY 4 STORY — write the full memory here.]",
+      },
+      {
+        title: "[MEMORY 5 TITLE]",
+        date: "[DATE — optional]",
+        summary: "[One-line teaser for memory 5]",
+        description: "[MEMORY 5 STORY — write the full memory here.]",
+      },
+      {
+        title: "[MEMORY 6 TITLE]",
+        date: "[DATE — optional]",
+        summary: "[One-line teaser for memory 6]",
+        description: "[MEMORY 6 STORY — write the full memory here.]",
+      },
+    ] satisfies Memory[],
+  },
+
+  letter: {
+    eyebrow: "A letter for you",
+    heading: "A few words on your special day.",
+    greeting: "Dear [NICKNAME],",
+    /** Each string is one paragraph. Add or remove paragraphs freely. */
+    paragraphs: ["[BIRTHDAY LETTER CONTENT]"],
+    signOff: "With love,",
+  },
+
+  finalWish: {
+    eyebrow: "And finally...",
+    heading: "May your days always bloom beautifully.",
+    description:
+      "May this new chapter bring you happiness, meaningful experiences, and countless beautiful moments.",
+    closing: "Happy Birthday! ♡",
+  },
+
+  music: {
+    src: defaultMusic.url,
+    title: "Little Bloom — original music box",
+  },
+
+  footer: "Made with care.",
+};
+
+export type BirthdayContent = typeof birthday;
