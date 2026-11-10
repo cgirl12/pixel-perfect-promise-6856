@@ -178,7 +178,7 @@ export function VideoPlayer({
       <div
         role="group"
         aria-label="Video controls"
-        className="relative z-10 mx-auto -mt-7 flex w-[calc(100%-1.5rem)] max-w-2xl items-center gap-2 rounded-full border border-border bg-background/95 px-2 py-1.5 shadow-soft backdrop-blur sm:w-[calc(100%-4rem)] sm:gap-3 sm:px-3"
+        className="relative z-10 mx-auto mt-3 flex sm:-mt-7 w-[calc(100%-1.5rem)] max-w-2xl items-center gap-2 rounded-full border border-border bg-background/95 px-2 py-1.5 shadow-soft backdrop-blur sm:w-[calc(100%-4rem)] sm:gap-3 sm:px-3"
       >
         <Button
           variant="bloom"
