@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { birthday } from "@/content/birthday";
 import { MusicPreferenceModal } from "@/components/birthday/MusicPreferenceModal";
 import { toEmbedUrl } from "@/components/birthday/VideoMemory";
+import { getAdjacentTrack } from "@/hooks/use-background-music";
 
 describe("Music preference modal", () => {
   it("'Ya, putar musik' chooses music", () => {
@@ -27,6 +28,28 @@ describe("Content configuration", () => {
 
   it("has exactly 6 memory cards", () => {
     expect(birthday.memories.items).toHaveLength(6);
+  });
+});
+
+describe("Playlist", () => {
+  const tracks = Array.from({ length: 6 }, (_, i) => ({ id: `song-${i + 1}`, src: "", title: "" }));
+
+  it("has exactly 6 songs", () => {
+    expect(birthday.playlist.songs).toHaveLength(6);
+  });
+
+  it("goes back to song 1 after song 6", () => {
+    expect(getAdjacentTrack(tracks, "song-6", 1).id).toBe("song-1");
+  });
+
+  it("goes to song 6 when pressing previous on song 1", () => {
+    expect(getAdjacentTrack(tracks, "song-1", -1).id).toBe("song-6");
+  });
+});
+
+describe("Video memory", () => {
+  it("uses the uploaded video", () => {
+    expect(birthday.video.src).toContain("moments-in-motion.mp4");
   });
 });
 
