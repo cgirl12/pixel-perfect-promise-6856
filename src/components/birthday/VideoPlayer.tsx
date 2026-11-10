@@ -73,6 +73,12 @@ export function VideoPlayer({
   const [fullscreen, setFullscreen] = useState(false);
 
   useEffect(() => {
+    // Metadata can load before hydration, so read it once on mount too.
+    const v = videoRef.current;
+    if (v && v.readyState >= 1 && Number.isFinite(v.duration)) setDuration(v.duration);
+  }, []);
+
+  useEffect(() => {
     const onChange = () => setFullscreen(document.fullscreenElement === videoRef.current);
     document.addEventListener("fullscreenchange", onChange);
     return () => document.removeEventListener("fullscreenchange", onChange);
@@ -129,6 +135,7 @@ export function VideoPlayer({
           onPause={() => setPlaying(false)}
           onTimeUpdate={(e) => setTime(e.currentTarget.currentTime)}
           onLoadedMetadata={(e) => setDuration(e.currentTarget.duration || 0)}
+          onDurationChange={(e) => setDuration(e.currentTarget.duration || 0)}
           className="h-full w-full cursor-pointer object-cover"
           aria-label={title}
         />
