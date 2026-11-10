@@ -18,7 +18,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 export function MemoryCards({ content }: { content: BirthdayContent["memories"] }) {
   const [open, setOpen] = useState<number | null>(null);
-  const memory: Memory | null = open !== null ? content.items[open] : null;
+  const memory: Memory | null = open !== null ? (content.items[open] ?? null) : null;
 
   return (
     <section

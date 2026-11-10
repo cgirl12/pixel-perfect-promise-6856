@@ -58,10 +58,10 @@ export function VideoPlayer({
   onPlay,
 }: {
   src: string;
-  poster?: string;
+  poster?: string | undefined;
   title: string;
-  loop?: boolean;
-  onPlay?: () => void;
+  loop?: boolean | undefined;
+  onPlay?: (() => void) | undefined;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);

@@ -7,8 +7,8 @@ export type Track = { id: string; src: string; title: string; artist?: string };
 /** The song before/after `currentId` in the playlist, wrapping around at the ends. */
 export function getAdjacentTrack(playlist: Track[], currentId: string, step: 1 | -1): Track {
   const idx = playlist.findIndex((t) => t.id === currentId);
-  if (idx === -1) return step === 1 ? playlist[0] : playlist[playlist.length - 1];
-  return playlist[(idx + step + playlist.length) % playlist.length];
+  if (idx === -1) return (step === 1 ? playlist[0] : playlist[playlist.length - 1])!;
+  return playlist[(idx + step + playlist.length) % playlist.length]!;
 }
 
 /**

@@ -43,7 +43,7 @@ export function Playlist({
   const activeIndex = tracks.findIndex((t) => t.id === music.current.id);
   const isPlaylistActive = activeIndex !== -1;
   const shownIndex = isPlaylistActive ? activeIndex : 0;
-  const shown = content.songs[shownIndex];
+  const shown = content.songs[shownIndex]!;
   const isPlaying = isPlaylistActive && music.playing;
 
   return (
@@ -132,7 +132,7 @@ export function Playlist({
                   variant="float"
                   size="icon-lg"
                   aria-label="Previous song"
-                  onClick={() => (isPlaylistActive ? music.prev() : music.playTrack(tracks.at(-1)!))}
+                  onClick={() => (isPlaylistActive ? music.prev() : music.playTrack(tracks[tracks.length - 1]!))}
                 >
                   <SkipBack aria-hidden="true" />
                 </Button>
@@ -141,7 +141,7 @@ export function Playlist({
                   size="icon"
                   className="h-14 w-14 [&_svg]:size-5"
                   aria-label={isPlaying ? "Pause song" : "Play song"}
-                  onClick={() => music.playTrack(tracks[shownIndex])}
+                  onClick={() => music.playTrack(tracks[shownIndex]!)}
                 >
                   {isPlaying ? (
                     <Pause aria-hidden="true" />
@@ -153,7 +153,7 @@ export function Playlist({
                   variant="float"
                   size="icon-lg"
                   aria-label="Next song"
-                  onClick={() => (isPlaylistActive ? music.next() : music.playTrack(tracks[1]))}
+                  onClick={() => (isPlaylistActive ? music.next() : music.playTrack(tracks[1]!))}
                 >
                   <SkipForward aria-hidden="true" />
                 </Button>
@@ -183,7 +183,7 @@ export function Playlist({
                   >
                     <button
                       type="button"
-                      onClick={() => music.playTrack(tracks[i])}
+                      onClick={() => music.playTrack(tracks[i]!)}
                       aria-label={`${rowPlaying ? "Pause" : "Play"} ${song.title} by ${song.artist}`}
                       className="flex min-w-0 flex-1 items-center gap-4 text-left focus-visible:outline-none sm:gap-6"
                     >
