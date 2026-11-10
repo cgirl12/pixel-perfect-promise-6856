@@ -36,7 +36,7 @@ export function BirthdayLetter({
       />
 
       <div className="relative mx-auto max-w-3xl px-6">
-        <SectionHeader number="05" eyebrow={content.eyebrow} heading={content.heading} align="center" />
+        <SectionHeader number="06" eyebrow={content.eyebrow} heading={content.heading} align="center" />
 
         <Reveal delay={0.15}>
           <article className="mt-14 rounded-[2rem] border border-border bg-background px-7 py-12 shadow-card sm:px-14 sm:py-16">

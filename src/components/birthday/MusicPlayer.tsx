@@ -44,7 +44,9 @@ export function MusicPlayer({
               />
             ))}
           </div>
-          <span className="sr-only">{title}</span>
+          <span className="hidden max-w-40 truncate px-1 font-serif text-sm italic text-muted-foreground md:block">
+            {title}
+          </span>
           <Button
             variant="float"
             size="icon-lg"

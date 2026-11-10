@@ -226,6 +226,16 @@
   }
 }
 
+@keyframes disc-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@utility animate-disc {
+  animation: disc-spin 16s linear infinite;
+}
+
 @utility animate-petal-fall {
   animation: petal-fall var(--petal-duration, 14s) linear infinite;
   animation-delay: var(--petal-delay, 0s);

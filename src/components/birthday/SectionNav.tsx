@@ -7,6 +7,7 @@ const SECTIONS = [
   { id: "gallery", label: "Gallery" },
   { id: "video", label: "Video" },
   { id: "memories", label: "Memories" },
+  { id: "playlist", label: "Playlist" },
   { id: "letter", label: "Letter" },
   { id: "wish", label: "Birthday wish" },
 ];
