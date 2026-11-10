@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- All personal content (names, photos, video, songs, letter) lives in `src/content/birthday.ts`; UI components in `src/components/birthday/` only read from it — keeps content swappable without touching layout.
+- One shared audio element (`useMusic` hook) drives background music and the playlist — prevents two tracks playing at once.
+- Media files (audio/video/posters) are Lovable Assets pointers in `src/assets/*.asset.json`, not binaries in the repo.
