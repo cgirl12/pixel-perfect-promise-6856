@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { MotionConfig } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { birthday } from "@/content/birthday";
-import { useBackgroundMusic } from "@/hooks/use-background-music";
+import { useMusic, type Track } from "@/hooks/use-background-music";
+import { Playlist } from "@/components/birthday/Playlist";
 import { MusicPreferenceModal } from "@/components/birthday/MusicPreferenceModal";
 import { MusicPlayer } from "@/components/birthday/MusicPlayer";
 import { HeroSection } from "@/components/birthday/HeroSection";
@@ -38,8 +39,20 @@ export const Route = createFileRoute("/")({
 /** Remembered for this browser tab so the question isn't asked again on reload. */
 const CHOICE_KEY = "blooming-day:music-choice";
 
+const BACKGROUND_TRACK: Track = {
+  id: "background",
+  src: birthday.music.src,
+  title: birthday.music.title,
+};
+const PLAYLIST_TRACKS: Track[] = birthday.playlist.songs.map((s, i) => ({
+  id: `song-${i + 1}`,
+  src: s.src,
+  title: s.title,
+  artist: s.artist,
+}));
+
 function BirthdayPage() {
-  const music = useBackgroundMusic(birthday.music.src);
+  const music = useMusic(BACKGROUND_TRACK, PLAYLIST_TRACKS);
   const [modalOpen, setModalOpen] = useState(true);
   const [confetti, setConfetti] = useState(0);
   const celebrated = useRef(false);
@@ -88,8 +101,9 @@ function BirthdayPage() {
           photoAlt={birthday.recipient.profilePhotoAlt}
         />
         <PhotoGallery content={birthday.gallery} />
-        <VideoMemory content={birthday.video} />
+        <VideoMemory content={birthday.video} onPlay={music.pause} />
         <MemoryCards content={birthday.memories} />
+        <Playlist content={birthday.playlist} tracks={PLAYLIST_TRACKS} music={music} />
         <BirthdayLetter content={birthday.letter} from={birthday.from} />
         <FinalWish
           content={birthday.finalWish}
@@ -103,7 +117,7 @@ function BirthdayPage() {
         visible={music.enabled && !modalOpen}
         playing={music.playing}
         muted={music.muted}
-        title={birthday.music.title}
+        title={music.current.title}
         onToggle={music.toggle}
         onToggleMute={music.toggleMute}
       />

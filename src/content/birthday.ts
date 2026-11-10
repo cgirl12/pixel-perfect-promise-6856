@@ -19,8 +19,35 @@
  *   • The default track is an original, royalty-free music-box tune made for
  *     this site. To use your own, put an .mp3 in /public/audio/ and set
  *     `music.src: "/audio/your-song.mp3"`. Only use music you have rights to.
+ *
+ *  PLAYLIST (6 songs)
+ *   • Each song plays right on the page. The six default files are short,
+ *     original demo tunes so the player works out of the box — replace each
+ *     `src` with your own .mp3 (e.g. "/audio/song-1.mp3") and fill in the title,
+ *     artist and the little note about why the song matters.
+ *   • `link` is optional: paste a Spotify / YouTube / Apple Music link to show
+ *     an "open" button next to the song.
  */
 import defaultMusic from "@/assets/birthday-music.mp3.asset.json";
+import memoryVideo from "@/assets/moments-in-motion.mp4.asset.json";
+import memoryPoster from "@/assets/moments-poster.jpg.asset.json";
+import song1 from "@/assets/playlist-song-1.mp3.asset.json";
+import song2 from "@/assets/playlist-song-2.mp3.asset.json";
+import song3 from "@/assets/playlist-song-3.mp3.asset.json";
+import song4 from "@/assets/playlist-song-4.mp3.asset.json";
+import song5 from "@/assets/playlist-song-5.mp3.asset.json";
+import song6 from "@/assets/playlist-song-6.mp3.asset.json";
+
+export type Song = {
+  title: string;
+  artist: string;
+  /** A short line about why this song is on the list. */
+  note: string;
+  /** Audio file path or URL. */
+  src: string;
+  /** Optional streaming link (Spotify, YouTube, …). "" hides the button. */
+  link: string;
+};
 
 export type Photo = {
   /** Image path or URL. Leave "" to show a placeholder. */
@@ -96,9 +123,11 @@ export const birthday = {
     eyebrow: "Moments in motion",
     heading: "Some memories are even more beautiful when they move.",
     /** Local file (/video/memory.mp4), direct video URL, or YouTube/Vimeo link. "" = placeholder. */
-    src: "",
+    src: memoryVideo.url,
     /** Thumbnail image shown before the video plays (optional). */
-    poster: "",
+    poster: memoryPoster.url,
+    /** Replay automatically when it ends (nice for short clips). */
+    loop: true,
     caption: "[VIDEO CAPTION — optional, e.g. where or when it was filmed]",
   },
 
@@ -143,6 +172,19 @@ export const birthday = {
         description: "[MEMORY 6 STORY — write the full memory here.]",
       },
     ] satisfies Memory[],
+  },
+
+  playlist: {
+    eyebrow: "Songs for you",
+    heading: "A little playlist for your day.",
+    songs: [
+      { title: "[SONG 1 TITLE]", artist: "[ARTIST]", note: "[Why this song reminds you of them]", src: song1.url, link: "" },
+      { title: "[SONG 2 TITLE]", artist: "[ARTIST]", note: "[Why this song reminds you of them]", src: song2.url, link: "" },
+      { title: "[SONG 3 TITLE]", artist: "[ARTIST]", note: "[Why this song reminds you of them]", src: song3.url, link: "" },
+      { title: "[SONG 4 TITLE]", artist: "[ARTIST]", note: "[Why this song reminds you of them]", src: song4.url, link: "" },
+      { title: "[SONG 5 TITLE]", artist: "[ARTIST]", note: "[Why this song reminds you of them]", src: song5.url, link: "" },
+      { title: "[SONG 6 TITLE]", artist: "[ARTIST]", note: "[Why this song reminds you of them]", src: song6.url, link: "" },
+    ] satisfies Song[],
   },
 
   letter: {
