@@ -1,9 +1,11 @@
-import { motion, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import lilyStem from "@/assets/lily-stem.webp";
 import lilyBloom from "@/assets/lily-bloom.webp";
 import { FallingPetals, Sparkles } from "./FloralDecorations";
+import { BeeIcon } from "./LittleBee";
 import type { BirthdayContent } from "@/content/birthday";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -16,6 +18,13 @@ const word: Variants = {
   hidden: { opacity: 0, y: "60%", filter: "blur(6px)" },
   show: { opacity: 1, y: "0%", filter: "blur(0px)", transition: { duration: 1, ease } },
 };
+/** Where the upper lily's center sits inside lily-stem.webp, in % of the image box. */
+const LILY_CORE = { x: 35.5, y: 32.5 };
+const BEE_SIZE = "h-6 w-6 -ml-3 -mt-3 md:h-7 md:w-7 md:-ml-3.5 md:-mt-3.5";
+
+type BeePhase = "hidden" | "perched" | "flying" | "landed";
+type Flight = { x: number[]; y: number[]; flip: boolean };
+
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 18 },
   show: { opacity: 1, y: 0, transition: { duration: 0.9, ease } },
@@ -24,24 +33,80 @@ const fadeUp: Variants = {
 export function HeroSection({
   content,
   nickname,
+  petName,
   ready,
   onExplore,
 }: {
   content: BirthdayContent["hero"];
   nickname: string;
+  petName: string;
   ready: boolean;
   onExplore: () => void;
 }) {
   const state = ready ? "show" : "hidden";
+  const reduceMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+  const anchorRef = useRef<HTMLSpanElement>(null);
+  const slotRef = useRef<HTMLSpanElement>(null);
+  const [bee, setBee] = useState<BeePhase>("hidden");
+  const [settled, setSettled] = useState(false);
+  const [flight, setFlight] = useState<Flight | null>(null);
+
+  // After the music choice: the bee lands on the lily, rests, then flies to the masthead.
+  useEffect(() => {
+    if (!ready) return;
+    if (reduceMotion) {
+      setBee("landed");
+      return;
+    }
+    const perch = window.setTimeout(() => setBee("perched"), 1700);
+    const takeOff = window.setTimeout(() => {
+      const s = sectionRef.current?.getBoundingClientRect();
+      const a = anchorRef.current?.getBoundingClientRect();
+      const t = slotRef.current?.getBoundingClientRect();
+      if (!s || !a || !t) return setBee("landed");
+      const sx = a.left - s.left;
+      const sy = a.top - s.top;
+      const ex = t.left + t.width / 2 - s.left;
+      const ey = t.top + t.height / 2 - s.top;
+      const dx = ex - sx;
+      const dy = ey - sy;
+      setFlight({
+        x: [sx, sx + dx * 0.2 + 40, sx + dx * 0.55 - 30, sx + dx * 0.85 + 14, ex],
+        y: [sy, sy + dy * 0.15 - 50, sy + dy * 0.6 + 34, ey + 18, ey],
+        flip: dx > 0,
+      });
+      setBee("flying");
+    }, 4600);
+    return () => {
+      window.clearTimeout(perch);
+      window.clearTimeout(takeOff);
+    };
+  }, [ready, reduceMotion]);
 
   return (
     <section
+      ref={sectionRef}
       id="top"
       aria-label="Happy birthday"
       className="relative isolate flex min-h-svh flex-col overflow-hidden bg-background"
     >
       <FallingPetals count={9} className="-z-10" />
       <Sparkles className="-z-10" />
+
+      {/* The little bee in flight, from the lily to the masthead */}
+      {bee === "flying" && flight && (
+        <motion.span
+          aria-hidden="true"
+          className={`pointer-events-none absolute left-0 top-0 z-30 ${BEE_SIZE}`}
+          initial={{ x: flight.x[0] ?? 0, y: flight.y[0] ?? 0, rotate: 0 }}
+          animate={{ x: flight.x, y: flight.y, rotate: [0, -14, 10, -6, 0] }}
+          transition={{ duration: 2.8, ease: "easeInOut", times: [0, 0.25, 0.55, 0.85, 1] }}
+          onAnimationComplete={() => setBee("landed")}
+        >
+          <BeeIcon flying className={`h-full w-full ${flight.flip ? "-scale-x-100" : ""}`} />
+        </motion.span>
+      )}
 
       {/* Masthead */}
       <motion.header
@@ -50,7 +115,29 @@ export function HeroSection({
         variants={fadeUp}
         className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 pt-6 text-[0.625rem] uppercase tracking-[0.3em] text-muted-foreground md:px-10 md:pt-8"
       >
-        <span>№ 01</span>
+        <span
+          ref={slotRef}
+          role="img"
+          aria-label={petName}
+          className="group relative inline-flex h-6 w-6 shrink-0 items-center justify-center md:h-7 md:w-7"
+        >
+          {bee === "landed" && (
+            <motion.span
+              className="block h-full w-full"
+              initial={{ scale: 0.85 }}
+              animate={{ scale: 1, y: [0, -2, 0] }}
+              transition={{
+                scale: { duration: 0.4 },
+                y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+              }}
+            >
+              <BeeIcon className="h-full w-full [&_.bee-wing]:group-hover:animate-wing-flap" />
+            </motion.span>
+          )}
+          <span className="pointer-events-none absolute left-full ml-2 whitespace-nowrap font-serif text-sm normal-case italic tracking-normal text-rose-ink opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            {petName}
+          </span>
+        </span>
         <span className="hidden sm:inline">The Birthday Edition</span>
         <span>A Blooming Day</span>
       </motion.header>
@@ -65,14 +152,35 @@ export function HeroSection({
           transition={{ duration: 1.6, ease, delay: 0.1 }}
         >
           <div aria-hidden="true" className="bg-glow absolute inset-[-15%] -z-10" />
-          <img
-            src={lilyStem}
-            alt="Pink lilies in bloom"
-            width={820}
-            height={1390}
-            fetchPriority="high"
-            className="animate-sway relative max-h-[42svh] w-full object-contain md:max-h-[78svh]"
-          />
+          {/* Wrapper hugs the image exactly so the bee's % position stays on the lily's center */}
+          <div className="animate-sway relative mx-auto w-fit max-w-full">
+            <img
+              src={lilyStem}
+              alt="Pink lilies in bloom"
+              width={820}
+              height={1390}
+              fetchPriority="high"
+              className="relative block h-auto max-h-[42svh] w-auto max-w-full md:max-h-[78svh]"
+            />
+            <span
+              ref={anchorRef}
+              aria-hidden="true"
+              className="absolute h-0 w-0"
+              style={{ left: `${LILY_CORE.x}%`, top: `${LILY_CORE.y}%` }}
+            >
+              {bee === "perched" && (
+                <motion.span
+                  className={`absolute left-0 top-0 block ${BEE_SIZE}`}
+                  initial={{ opacity: 0, x: 36, y: -44, scale: 0.6, rotate: -18 }}
+                  animate={{ opacity: 1, x: 0, y: 0, scale: 1, rotate: 0 }}
+                  transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                  onAnimationComplete={() => setSettled(true)}
+                >
+                  <BeeIcon flying={!settled} className="h-full w-full" />
+                </motion.span>
+              )}
+            </span>
+          </div>
           <img
             src={lilyBloom}
             alt=""

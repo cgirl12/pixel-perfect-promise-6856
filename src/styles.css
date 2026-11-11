@@ -74,6 +74,12 @@
   --border: oklch(0.937 0.012 351); /* #F1E7EB */
   --overlay: oklch(0.271 0.011 319.5 / 0.55);
 
+  /* Little bee */
+  --bee-gold: oklch(0.76 0.15 75);
+  --bee-honey: oklch(0.88 0.14 92);
+  --bee-ink: oklch(0.29 0.03 50);
+  --bee-wing: oklch(1 0 0 / 0.75);
+
   --card: var(--background);
   --card-foreground: var(--foreground);
   --popover: var(--background);
@@ -224,6 +230,25 @@
     transform: translateY(8px);
     opacity: 1;
   }
+}
+
+@keyframes wing-flap {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.3);
+  }
+}
+
+@utility bee-wing {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+@utility animate-wing-flap {
+  animation: wing-flap 0.11s linear infinite;
 }
 
 @keyframes disc-spin {

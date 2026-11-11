@@ -92,6 +92,7 @@ function BirthdayPage() {
         <HeroSection
           content={birthday.hero}
           nickname={birthday.recipient.nickname}
+          petName={birthday.recipient.petName}
           ready={!modalOpen}
           onExplore={handleExplore}
         />

@@ -70,6 +70,8 @@ export const birthday = {
   recipient: {
     fullName: "[FULL NAME]",
     nickname: "[NICKNAME]",
+    /** Special pet name — the little bee in the header carries it (shown on hover). */
+    petName: "little bee",
     /** Main portrait for the "About you" section. Leave "" for a placeholder. */
     profilePhoto: "",
     profilePhotoAlt: "Portrait of [NICKNAME]",
