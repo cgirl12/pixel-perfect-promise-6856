@@ -99,7 +99,7 @@ export function HeroSection({
         <motion.span
           aria-hidden="true"
           className={`pointer-events-none absolute left-0 top-0 z-30 ${BEE_SIZE}`}
-          initial={{ x: flight.x[0], y: flight.y[0], rotate: 0 }}
+          initial={{ x: flight.x[0] ?? 0, y: flight.y[0] ?? 0, rotate: 0 }}
           animate={{ x: flight.x, y: flight.y, rotate: [0, -14, 10, -6, 0] }}
           transition={{ duration: 2.8, ease: "easeInOut", times: [0, 0.25, 0.55, 0.85, 1] }}
           onAnimationComplete={() => setBee("landed")}
